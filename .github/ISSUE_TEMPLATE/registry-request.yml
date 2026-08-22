@@ -1,0 +1,49 @@
+name: Builder registry request
+description: A missing builder, or a correction to an existing entry, in registry/builders.json — for those not opening a PR directly.
+title: "[Registry] <builder name>"
+labels: ["registry"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Before requesting, check [`registry/builders.json`](../blob/main/registry/builders.json)
+        and the canonical-name policy in [`registry/README.md`](../blob/main/registry/README.md) —
+        the canonical name is the name a buyer would search (brands split from
+        corporate parents, shipyards collapsed into brands, regional arms
+        merged). Slugs are permanent once published. Generic placeholders
+        (Custom, Other, Unknown) are never registry entries. A PR is equally
+        welcome.
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Request type
+      options:
+        - Add a missing builder
+        - Correct an existing entry (name casing or country — slugs never change)
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Builder name (as a buyer would search it)
+    validations:
+      required: true
+  - type: input
+    id: country
+    attributes:
+      label: Country
+      placeholder: Country of the brand, or leave blank if unsure
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: The builder's website, and/or a couple of real vessels (model + year) built under this exact brand. This is what makes the entry verifiable.
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is a real yacht/boat builder brand, not a dealer, broker, importer name, or a one-off custom label.
+          required: true

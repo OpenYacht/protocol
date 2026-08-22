@@ -1,0 +1,55 @@
+name: Consultation response
+description: Answer one of the open industry-consultation questions (consultation/open-questions.md). One issue per question, please.
+title: "[Consultation] Q<number>: <short position>"
+labels: ["consultation"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Thanks for weighing in. Please read the question's context in
+        [`consultation/open-questions.md`](../blob/main/consultation/open-questions.md)
+        first — each question says whose experience it needs most. A sentence
+        or two of reasoning is worth more than a yes/no. Disagreement with the
+        working position is exactly what we're asking for.
+  - type: dropdown
+    id: question
+    attributes:
+      label: Which question are you answering?
+      options:
+        - "1 — Cabin and berth breakdowns: structured data or free text?"
+        - "2 — Image delivery: one original per image, or pre-generated sizes? (resolved — object only if it would block you)"
+        - "3 — VAT / tax status: what states does a listing actually need?"
+        - "4 — Charter crew profiles: publishing people's data"
+        - "5 — Listing agreement details: share them or keep them private?"
+    validations:
+      required: true
+  - type: input
+    id: role
+    attributes:
+      label: Your role and relevant experience
+      description: e.g. "charter manager, 12 years", "broker, cross-border sales", "developer at a brokerage with an in-house system". This is how responses are weighed — the questions need practitioners.
+      placeholder: role, years, context
+    validations:
+      required: true
+  - type: textarea
+    id: response
+    attributes:
+      label: Your answer, with reasoning
+      description: What you'd do and why — ideally grounded in a real situation you've handled.
+    validations:
+      required: true
+  - type: checkboxes
+    id: attribution
+    attributes:
+      label: Attribution
+      description: Accepted changes land as spec amendments carrying a consultation note.
+      options:
+        - label: You may name me (and/or my company) in the consultation note if this response is accepted. Otherwise the note stays anonymous.
+          required: false
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is my own professional experience or reasoning — not marketing, a listing submission, or a support request.
+          required: true

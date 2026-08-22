@@ -1,0 +1,20 @@
+{
+  "name": "openyacht-protocol-checks",
+  "private": true,
+  "description": "Consistency checks for the OpenYacht protocol repository. A schema beside a prose spec is a second source of truth; only a machine keeps them honest.",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "validate": "node scripts/validate-examples.mjs",
+    "lock": "node scripts/check-prose-lock.mjs",
+    "registry": "node scripts/check-registry.mjs",
+    "links": "node scripts/check-links.mjs",
+    "openapi": "spectral lint openapi/openyacht-v1.yaml --fail-severity=warn",
+    "test": "npm run validate && npm run lock && npm run registry && npm run links && npm run openapi"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-cli": "^6.11.1",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1"
+  }
+}

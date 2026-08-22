@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: About OpenYacht
+    url: https://openyacht.org
+    about: What the protocol is and why — read this before opening an issue if you're new here.

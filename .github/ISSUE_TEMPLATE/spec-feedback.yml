@@ -1,0 +1,55 @@
+name: Spec feedback
+description: An error, ambiguity, or conflict in the spec documents, JSON Schemas, or OpenAPI document.
+title: "[Spec] <document>: <short summary>"
+labels: ["spec"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        The prose spec is normative; the schemas are normative for JSON shape
+        only. If prose and schema disagree, the schema is defective — that is
+        exactly the kind of report we want. Registry additions have their own
+        form; implementation help for a specific node is out of scope here.
+  - type: dropdown
+    id: document
+    attributes:
+      label: Which document?
+      options:
+        - spec/federation-protocol.md
+        - spec/yacht-identity.md
+        - spec/api-design.md
+        - spec/listing-schema.md
+        - spec/conformance-checklist.md
+        - spec/signing-test-vectors.md
+        - schemas/v1/ (a JSON Schema)
+        - openapi/openyacht-v1.yaml
+        - examples/
+        - Cross-document inconsistency
+    validations:
+      required: true
+  - type: input
+    id: section
+    attributes:
+      label: Section or field
+      placeholder: e.g. "§Request Signing, step 5" or "listing.media.profile.thumbnail_url"
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is wrong, ambiguous, or conflicting?
+      description: Quote the text or name the schema keyword. If you hit this while implementing, say what your implementation had to guess.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed resolution (optional)
+      description: PRs welcome too — see CONTRIBUTING.md for the amendment convention.
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This concerns the protocol itself — not support for a specific implementation, and not marketing.
+          required: true

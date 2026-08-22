@@ -1,0 +1,16 @@
+# LF everywhere, enforced. Line endings are load-bearing in this repo:
+# CI byte-compares the spec's fenced example against examples/valid/
+# sale-full.json, and the signing test vectors hash exact bytes — CRLF
+# conversion would break both.
+* text=auto eol=lf
+
+*.md diff=markdown
+
+# Vendored-by-implementers files must survive archive export untouched.
+package.json export-ignore
+package-lock.json export-ignore
+scripts/ export-ignore
+.github/ export-ignore
+.spectral.yaml export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore

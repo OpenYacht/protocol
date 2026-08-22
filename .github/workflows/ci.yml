@@ -1,0 +1,36 @@
+# The consistency lock. A schema beside a prose spec is a second source of
+# truth; only a machine keeps them honest. Every push/PR:
+#   1. every examples/valid/ file validates against its schema (ajv, strict,
+#      formats on) and every examples/invalid/ file FAILS;
+#   2. the complete example in spec/listing-schema.md is byte-identical to
+#      examples/valid/sale-full.json;
+#   3. the OpenAPI document lints (Spectral) and all $refs resolve;
+#   4. registry/builders.json is well-formed with unique, well-formatted slugs;
+#   5. no markdown file links to a private-repo path, and all relative links
+#      resolve (the tripwire for curation misses).
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Validate examples against schemas (valid pass, invalid fail)
+        run: npm run validate
+      - name: Prose↔example byte lock
+        run: npm run lock
+      - name: Registry well-formedness
+        run: npm run registry
+      - name: Markdown links and private-path tripwire
+        run: npm run links
+      - name: OpenAPI lint and $ref resolution
+        run: npm run openapi
