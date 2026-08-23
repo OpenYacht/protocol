@@ -5,7 +5,8 @@
 // deliberately don't encode registry membership, so this is where that
 // consistency is enforced for the examples we publish. Feature slugs are
 // cross-checked too, but only WARN: features.json is a non-normative
-// well-known list, never a validation gate.
+// well-known list, never a validation gate. nodes.json (the node directory,
+// advisory data) gets offline structural checks only — see its section below.
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -94,6 +95,45 @@ const featureSlugs = checkRegistry("features.json", {
 // still a label we publish, so it must be slug-formatted and present.
 for (const e of features.features) {
   if (typeof e.category !== "string" || !SLUG.test(e.category)) fail(`features.json: entry ${e.slug}: bad category ${JSON.stringify(e.category)}`);
+}
+
+// nodes.json — the node directory — is advisory data, not a vocabulary: no
+// slugs, entries keyed by identity domain, and an EMPTY list is valid (the
+// mechanism shipped before its first entry, deliberately). Offline structural
+// checks only: liveness and listing-signature verification live in
+// verify-listing.mjs and the staleness sweep, never here — a partner's outage
+// must not break this repo's CI.
+{
+  const file = "nodes.json";
+  const reg = JSON.parse(readFileSync(join(root, "registry", file), "utf8"));
+  if (reg.registry !== "openyacht-nodes") fail(`${file}: registry name ${reg.registry}`);
+  if (!/^[0-9]{4}\.[0-9]{2}\.[0-9]+$/.test(reg.version)) fail(`${file}: version not date-based (yyyy.mm.n): ${reg.version}`);
+  if (reg.canonical_url !== `https://openyacht.org/registry/${file}`) fail(`${file}: canonical_url ${reg.canonical_url}`);
+  if (!Array.isArray(reg.nodes)) fail(`${file}: nodes is not an array`);
+
+  // Lowercase, no scheme, no path, no port — the bare identity domain.
+  const DOMAIN = /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/;
+  const NODE_KEYS = ["domain", "name", "website", "country", "listed_at"];
+  const domains = new Set();
+  for (const e of reg.nodes ?? []) {
+    const id = JSON.stringify(e.domain);
+    if (typeof e.domain !== "string" || !DOMAIN.test(e.domain)) fail(`${file}: bad domain ${id} (must be lowercase, no scheme/path/port)`);
+    if (domains.has(e.domain)) fail(`${file}: duplicate domain ${e.domain}`);
+    domains.add(e.domain);
+    if (typeof e.name !== "string" || e.name.trim() === "") fail(`${file}: entry ${id}: empty name`);
+    if (typeof e.website !== "string" || !/^https:\/\/.+/.test(e.website)) fail(`${file}: entry ${id}: website must be an https:// URL`);
+    if (typeof e.country !== "string" || !/^[A-Z]{2}$/.test(e.country)) fail(`${file}: entry ${id}: country must be ISO 3166-1 alpha-2 (got ${JSON.stringify(e.country)})`);
+    if (typeof e.listed_at !== "string" || !/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(e.listed_at)
+      || Number.isNaN(Date.parse(`${e.listed_at}T00:00:00Z`))
+      || new Date(`${e.listed_at}T00:00:00Z`).toISOString().slice(0, 10) !== e.listed_at) {
+      fail(`${file}: entry ${id}: listed_at must be a real YYYY-MM-DD date (got ${JSON.stringify(e.listed_at)})`);
+    }
+    const missing = NODE_KEYS.filter((k) => !(k in e));
+    if (missing.length) fail(`${file}: entry ${id}: missing keys ${missing.join(", ")}`);
+    const extra = Object.keys(e).filter((k) => !NODE_KEYS.includes(k));
+    if (extra.length) fail(`${file}: entry ${id}: unexpected keys ${extra.join(", ")}`);
+  }
+  console.log(`ok    registry/${file}: ${reg.nodes?.length ?? 0} entries (empty is valid), version ${reg.version}, domains unique`);
 }
 
 // Cross-check: example listings only reference registered slugs.

@@ -30,6 +30,7 @@ Sources: `federation-protocol.md` (FP), `yacht-identity.md` (ID), `api-design.md
 | FP-13 | A+C | Treat first contact from an unknown domain as `provisional`: no data shared beyond what provisional trust allows, until human approval. |
 | FP-14 | A+C | Treat all inbound listing content as untrusted input: sanitise HTML, validate media URLs, no unchecked hotlinking into admin interfaces. |
 | FP-15 | C | Flag listings from a partner unreachable beyond your staleness threshold (RECOMMENDED: 7 days) as stale in any consuming UI. |
+| FP-16 | A+C | Never require a prospective partner to appear in the node directory or treat absence from it as a signal; never treat a directory entry as endorsement, identity verification, or trust — the node's own documents win on any conflict. |
 
 ## Listing identity, authority, and copies (ID)
 

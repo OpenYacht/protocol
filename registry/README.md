@@ -37,3 +37,32 @@ The canonical `name` is **the name a buyer would search**. The rules:
 - **Names are unique** (consumers fall back to them) and are the term a buyer would search, including genericised brand names where that is the industry word (`Seabob`, `Jet Ski`, `Starlink`).
 - **Spelling**: registry data values use American spelling (`stabilizers`, `snorkeling`) — the convention of the predominant buyer market. Spec prose keeps British spelling; the two coexist deliberately.
 - **Versioning and governance** follow the other registries: date-based version bumped on every published change, canonical URL `https://openyacht.org/registry/features.json`, vendored by nodes and never fetched at request time, slugs permanent once published, additions via pull request argued from real listings.
+
+## The node directory (`nodes.json`) — advisory data, not a vocabulary
+
+`nodes.json` is different in kind from everything above. It is the **node directory**: an opt-in, advisory seed list of OpenYacht nodes that have asked to be listed. It is advisory data, not a validation vocabulary — none of the vocabulary rules in this file apply to it, and nothing on the wire references it. The normative consumer rules (there are three) are in [`../spec/federation-protocol.md`](../spec/federation-protocol.md) (*Finding partners: the node directory*). The plain-language version:
+
+> The directory is a phonebook, not a membership list. It lists nodes that asked to be listed. Being in it grants nothing; being absent from it costs nothing; everything a partner needs to verify comes from the node's own domain, not from us. **A node never needs to be listed here to federate**, and nobody may treat absence from the list as a signal about anything.
+
+Each entry is `{ "domain", "name", "website", "country", "listed_at" }`: the node's identity domain (the primary key — everything else about the node is looked up live from it), a display name, the brokerage's public website, the ISO 3166-1 alpha-2 country of its principal office, and the date listed. Deliberately nothing more — no keys, no endpoints, no capabilities: anything verifiable is discovered live from the node's own `/.well-known/openyacht`, and on any conflict the node's own documents win.
+
+Versioning and publication follow the other registries: date-based version bumped on every change, canonical URL `https://openyacht.org/registry/nodes.json`, vendored by consumers, never fetched at request time.
+
+### Get listed
+
+Written for brokerage operators, not spec readers. Listing is free, optional, and reversible. The only requirement is proving you control the node being listed — with the same key your node already uses to sign federation requests, so there is nothing new to set up.
+
+1. **Produce a listing token.** It is two lines:
+
+   ```
+   token:     openyacht-node-listing:v1:{your-identity-domain}:list:{today, YYYY-MM-DD}
+   signature: <base64 Ed25519 signature over the UTF-8 token, made with a key currently published in your /.well-known/openyacht>
+   ```
+
+   Conforming node software surfaces this as a copy-paste pair in its admin screens; failing that, any Ed25519 tool that can sign a string with your node's private key works. The token is dated and expires (valid ±30 days), so produce it when you are ready to submit.
+
+2. **Submit it.** Open a **Node directory listing** issue using the issue form — paste the token and signature, plus your node's display name, public website, and the two-letter country code of your principal office. The maintainer verifies the signature against your live well-known document ([`../scripts/verify-listing.mjs`](../scripts/verify-listing.mjs)) and turns the issue into the registry pull request. If you would rather open the PR yourself, that is equally welcome: add your entry to `nodes.json`, bump the version, and put the token and signature in the PR description.
+
+3. **Delist or amend the same way.** The token's action field takes `delist` or `amend` in place of `list`. Delisting removes the entry (history stays in git); because nothing on the wire depends on the directory, your partners notice nothing either way. A node that has lost its keys entirely can still be delisted — never listed — after out-of-band verification by the maintainer.
+
+**Staying listed** requires only that your node stays up: a monthly sweep re-fetches every listed domain's well-known document, and a domain that fails two consecutive monthly sweeps gets a delisting PR opened for maintainer review. Re-listing afterwards is the normal listing flow again.

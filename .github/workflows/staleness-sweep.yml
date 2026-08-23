@@ -1,0 +1,29 @@
+# Node-directory hygiene: once a month, re-fetch every listed domain's
+# well-known document (registry/nodes.json). First failing sweep opens a
+# marker issue; a second consecutive monthly failure (~60 days unreachable)
+# opens a delisting PR for maintainer review. Not a protocol event — nothing
+# on the wire depends on the directory, so partners of a delisted node notice
+# nothing. No-op while the directory is empty. Logic: scripts/staleness-sweep.mjs.
+name: Node directory staleness sweep
+
+on:
+  schedule:
+    - cron: "17 6 3 * *" # 06:17 UTC on the 3rd of every month
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/staleness-sweep.mjs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

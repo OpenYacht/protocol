@@ -103,6 +103,45 @@ Rules:
 - Responses SHOULD be cached by consumers for 24 hours, keyed by domain.
 - Nodes SHOULD rate-limit this endpoint per requesting IP (it is public and unauthenticated); 1 request/minute/consumer is ample given caching.
 
+## Finding partners: the node directory
+
+*(Added by amendment, 2026-08: the first stage of the discovery layer the v0.1 scope deferred, shipped as out-of-band advisory data. Nothing on the wire changes, and design goal 2 holds — discovery still works without contacting anyone, because the directory is optional.)*
+
+The project publishes a **node directory** — an optional, advisory seed list of nodes that have asked to be listed — at `https://openyacht.org/registry/nodes.json`, versioned and vendored like the shared vocabulary registries (see [`../registry/README.md`](../registry/README.md)). The directory is a phonebook, not a membership list: it lists nodes that asked to be listed; being in it grants nothing; being absent from it costs nothing; and everything a partner needs to verify comes from the node's own domain, never from the directory.
+
+Three rules are normative:
+
+1. **Listing is opt-in and advisory.** A node MUST NOT require a prospective partner to appear in the directory, and MUST NOT treat absence from it as a signal about anything.
+2. **Presence conveys existence only.** Consumers MUST NOT treat a directory entry as endorsement, identity verification, or trust. A node found via the directory is verified exactly like a domain learned any other way: fetch its well-known document over TLS, trust on first use, pairwise human approval. On any conflict between a directory entry and the node's own documents, the node's documents win.
+3. **The directory is out-of-band data.** Consumers vendor a copy and refresh it out of band; nothing on the wire — signing, verification, sync — depends on it or references it.
+
+An entry carries display metadata only — no keys, no endpoints, nothing verifiable, nothing trust-bearing:
+
+| Field | Rule |
+|---|---|
+| `domain` | The node's **identity domain** (see above) — lowercase, no scheme, no path, no port. Unique; the primary key. Everything else about the node is dereferenced live from it. |
+| `name` | Human display label; should match the well-known `node.name` at listing time. The live document wins on drift. |
+| `website` | `https://` URL of the brokerage's public site (usually not the identity domain). |
+| `country` | ISO 3166-1 alpha-2 — the country of the brokerage's principal office. |
+| `listed_at` | `YYYY-MM-DD` the entry was added. |
+
+### The listing token
+
+Listing, delisting, and amending an entry happen only by **signed request from the node operator**: the same Ed25519 key that signs federation requests proves listing consent, so nobody can list — or delist — a domain they do not control. The request carries two lines:
+
+```
+token:     openyacht-node-listing:v1:{domain}:{action}:{date}
+signature: <base64 Ed25519 signature over the UTF-8 token>
+```
+
+- `action` is `list`, `delist`, or `amend`.
+- `date` is `YYYY-MM-DD` and the token is valid within ±30 days of verification, so an old captured `list` token cannot be replayed to re-list a node that has since delisted.
+- The signature MUST verify against a key **currently published** in the domain's live `/.well-known/openyacht`, fetched at verification time. There is deliberately no key-ID line: the verifier simply tries each currently-published key (a handful at most during rotation overlap; Ed25519 verification is cheap), so a hand-copied key ID cannot become a failure mode.
+
+**Lost keys**: a node that has lost its keys entirely can be **delisted** — never listed — on maintainer judgement with out-of-band verification. Being unable to remove a dead entry is worse than the spoof risk on removal, and a spoofed delisting is self-correcting: the operator re-lists with a fresh signature.
+
+How to submit a listing request (issue form or pull request) is operator documentation, not protocol — see the walkthrough in [`../registry/README.md`](../registry/README.md).
+
 ## Request Signing
 
 Every federation request (everything under `/openyacht/v1/` except `health` and `capabilities`) carries these headers:

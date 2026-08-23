@@ -31,6 +31,9 @@ Please use the issue forms — they exist to keep signal high:
   or OpenAPI document.
 - **Builder registry request** — a missing builder or a correction, for
   those not comfortable opening a PR directly.
+- **Node directory listing** — listing, delisting, or amending your node in
+  the node directory (`registry/nodes.json`), by signed request from the
+  node operator — see the *Get listed* walkthrough in `registry/README.md`.
 
 Blank issues are disabled. Marketing, listing submissions, and support
 requests for specific implementations are out of scope and will be closed.

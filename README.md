@@ -82,11 +82,16 @@ time.
 - **In scope**: sale listings, charter listings (static data: yacht, rates,
   capacities), partner management, sync, media, usage terms.
 - **Out of scope for v1**: charter availability calendars and booking flows;
-  listing relay through intermediary nodes; partner discovery (connecting two
-  nodes today means exchanging domains — brokers already know who they
-  co-broker with). A discovery layer that helps nodes find each other across
-  the network is planned for a later version; whatever shape it takes, it
-  will be optional and advisory — a node never needs to be listed anywhere
+  listing relay through intermediary nodes; partner discovery on the wire
+  (connecting two nodes means exchanging domains — brokers already know who
+  they co-broker with). The first stage of a discovery layer exists as
+  out-of-band data: the **node directory**
+  ([`registry/nodes.json`](registry/nodes.json)), an opt-in, advisory seed
+  list of nodes that have asked to be listed — see
+  [`spec/federation-protocol.md`](spec/federation-protocol.md) (*Finding
+  partners*). A gossip layer that helps nodes find each other across the
+  network remains planned for a later version. Both are
+  optional and advisory — a node never needs to be listed anywhere
   to federate.
 
 ## Contributing

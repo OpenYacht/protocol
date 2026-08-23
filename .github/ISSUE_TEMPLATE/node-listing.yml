@@ -1,0 +1,75 @@
+name: Node directory listing
+description: List, delist, or amend your node in registry/nodes.json — the opt-in, advisory node directory. Requires a signed token proving you operate the node.
+title: "[Node directory] <identity domain>"
+labels: ["node-directory"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        The node directory is a phonebook, not a membership list: being in it
+        grants nothing, being absent costs nothing, and **a node never needs to
+        be listed anywhere to federate**. Listing is by signed request from the
+        node operator — the walkthrough (including how to produce the token) is
+        in [`registry/README.md`](../blob/main/registry/README.md), *Get
+        listed*. The maintainer verifies your signature against the keys your
+        node currently publishes at `/.well-known/openyacht` and turns this
+        issue into the registry PR. Opening that PR yourself instead is equally
+        welcome — put the token and signature in the PR description.
+  - type: dropdown
+    id: action
+    attributes:
+      label: Action
+      options:
+        - List my node
+        - Delist my node
+        - Amend my node's entry
+    validations:
+      required: true
+  - type: input
+    id: domain
+    attributes:
+      label: Identity domain
+      description: The domain serving your /.well-known/openyacht — lowercase, no scheme, no path, no port. This is the entry's primary key.
+      placeholder: openyacht.example-yachts.com
+    validations:
+      required: true
+  - type: input
+    id: token
+    attributes:
+      label: Listing token
+      description: "Format: openyacht-node-listing:v1:{domain}:{list|delist|amend}:{YYYY-MM-DD}. Dated within ±30 days; your node software surfaces it, or any Ed25519 tool works."
+      placeholder: "openyacht-node-listing:v1:openyacht.example-yachts.com:list:2026-08-23"
+    validations:
+      required: true
+  - type: textarea
+    id: signature
+    attributes:
+      label: Signature
+      description: Base64 Ed25519 signature over the UTF-8 token, made with a key currently published in your node's /.well-known/openyacht. Paste it exactly — a wrapped or truncated line is the most common verification failure.
+      render: text
+    validations:
+      required: true
+  - type: input
+    id: name
+    attributes:
+      label: Display name (required when listing)
+      description: Your node's human-readable name — should match the node.name in your well-known document. Not needed for delisting.
+  - type: input
+    id: website
+    attributes:
+      label: Public website (required when listing)
+      description: Your brokerage's public site, https:// — usually not the identity domain. Not needed for delisting.
+      placeholder: https://example-yachts.com
+  - type: input
+    id: country
+    attributes:
+      label: Country (required when listing)
+      description: ISO 3166-1 alpha-2 code of your brokerage's principal office. Not needed for delisting.
+      placeholder: US
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Operator confirmation
+      options:
+        - label: I operate this node, and I understand a directory entry conveys existence only — no endorsement, no verification, no trust, and no effect on federation either way.
+          required: true
