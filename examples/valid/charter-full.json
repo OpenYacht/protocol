@@ -93,10 +93,10 @@
     { "section": "highlights", "content": "<ul><li>Refitted 2024: new interior soft goods, zero-speed stabilisers</li><li>Full-beam main-deck master</li><li>Jacuzzi and alfresco dining on the sundeck</li></ul>" }
   ],
   "features": [
-    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning" },
-    { "category": "equipment", "name": "Zero-speed stabilisers", "slug": "stabilisers" },
-    { "category": "toys", "name": "Williams 505 jet tender", "slug": null },
-    { "category": "toys", "name": "Seabobs (2)", "slug": null }
+    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning", "quantity": null },
+    { "category": "equipment", "name": "Zero-speed stabilizers", "slug": "stabilizers-anchor", "quantity": null },
+    { "category": "toys", "name": "Williams 505 jet tender", "slug": null, "quantity": null },
+    { "category": "toys", "name": "Seabob", "slug": "seabob", "quantity": 2 }
   ],
   "media": {
     "profile": {

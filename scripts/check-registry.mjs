@@ -1,9 +1,11 @@
-// Registry well-formedness: builders.json, categories.json and destinations.json (unique,
-// well-formatted slugs; version and canonical URL; allowed keys), plus a
-// cross-check that every non-null builder/category/destination slug in examples/valid/
-// exists in its registry — the schemas deliberately don't encode registry
-// membership, so this is where that consistency is enforced for the
-// examples we publish.
+// Registry well-formedness: builders.json, categories.json, destinations.json
+// and features.json (unique, well-formatted slugs; version and canonical URL;
+// allowed keys), plus a cross-check that every non-null builder/category/
+// destination slug in examples/valid/ exists in its registry — the schemas
+// deliberately don't encode registry membership, so this is where that
+// consistency is enforced for the examples we publish. Feature slugs are
+// cross-checked too, but only WARN: features.json is a non-normative
+// well-known list, never a validation gate.
 import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -12,6 +14,7 @@ const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 let failures = 0;
 const fail = (msg) => { console.error(`FAIL  ${msg}`); failures++; };
+const warn = (msg) => { console.warn(`WARN  ${msg}`); };
 
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 
@@ -78,6 +81,21 @@ const ancestorsOf = (slug) => {
 };
 console.log(`ok    registry/destinations.json: hierarchy resolves, no cycles`);
 
+// features.json is non-normative (never a validation gate), but its structure
+// is linted exactly like the fixed registries.
+const features = JSON.parse(readFileSync(join(root, "registry", "features.json"), "utf8"));
+const featureSlugs = checkRegistry("features.json", {
+  registryName: "openyacht-features",
+  entriesKey: "features",
+  allowedKeys: ["slug", "name", "category"],
+  uniqueNames: true, // consumers fall back to the name when a slug is unknown
+});
+// The category is the registry's own grouping label, not an enum — but it is
+// still a label we publish, so it must be slug-formatted and present.
+for (const e of features.features) {
+  if (typeof e.category !== "string" || !SLUG.test(e.category)) fail(`features.json: entry ${e.slug}: bad category ${JSON.stringify(e.category)}`);
+}
+
 // Cross-check: example listings only reference registered slugs.
 for (const file of readdirSync(join(root, "examples/valid")).sort()) {
   const data = JSON.parse(readFileSync(join(root, "examples/valid", file), "utf8"));
@@ -95,6 +113,11 @@ for (const file of readdirSync(join(root, "examples/valid")).sort()) {
     for (const anc of ancestorsOf(a)) {
       if (areas.includes(anc)) fail(`examples/valid/${file}: operating_areas lists "${a}" and its ancestor "${anc}" — the parent already implies it`);
     }
+  }
+  // Feature slugs: warn only — features.json is a non-normative well-known
+  // list, and an unlisted slug on the wire is a curation prompt, not an error.
+  for (const f of data.features ?? []) {
+    if (f?.slug != null && !featureSlugs.has(f.slug)) warn(`examples/valid/${file}: feature slug "${f.slug}" not in registry/features.json (non-normative list — warning only)`);
   }
 }
 console.log("ok    examples/valid: all builder/category/destination slugs exist in their registries");

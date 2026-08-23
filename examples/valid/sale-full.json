@@ -63,8 +63,8 @@
     { "section": "overview", "content": "<p>BLUE SKY, the 50’ Maritimo, is a well-maintained, extensively upgraded motor yacht…</p>" }
   ],
   "features": [
-    { "category": "equipment", "name": "Water maker", "slug": "water-maker" },
-    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning" }
+    { "category": "equipment", "name": "Water maker", "slug": "water-maker", "quantity": null },
+    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning", "quantity": null }
   ],
   "media": {
     "profile": { "url": "https://authority.example/media/listings/018f6d2e-9f0a-7cc3-a1b2-3c4d5e6f7a8b/profile.jpg", "sha256": "ef6d847c6ea6004cea1b1f1f9626c6ce4088442d63dde6e08fc404a822cf4c13", "width": 4000, "height": 2667, "caption": "Profile", "thumbnail_url": "https://authority.example/media/listings/018f6d2e-9f0a-7cc3-a1b2-3c4d5e6f7a8b/profile-thumb.jpg" },

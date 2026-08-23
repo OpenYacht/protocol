@@ -173,12 +173,14 @@
     {
       "category": "equipment",
       "name": "Water maker",
-      "slug": "water-maker"
+      "slug": "water-maker",
+      "quantity": null
     },
     {
       "category": "comfort",
       "name": "Air conditioning",
-      "slug": "air-conditioning"
+      "slug": "air-conditioning",
+      "quantity": null
     }
   ],
   "media": {

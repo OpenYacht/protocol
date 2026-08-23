@@ -139,15 +139,17 @@ The normalised equipment/amenity list — one mechanism for sale amenities, char
 
 ```json
 "features": [
-  { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning" },
-  { "category": "deck", "name": "Elevator", "slug": "elevator" },
-  { "category": "toys", "name": "Yachtwerft Meyer limousine tender", "slug": null }
+  { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning", "quantity": null },
+  { "category": "deck", "name": "Elevator", "slug": "elevator", "quantity": null },
+  { "category": "toys", "name": "Seabob", "slug": "seabob", "quantity": 2 },
+  { "category": "toys", "name": "Yachtwerft Meyer limousine tender", "slug": null, "quantity": null }
 ]
 ```
 
 - `name` is required free text; `slug` is an optional well-known identifier; `category` is an optional grouping label.
+- `quantity` is an integer count ≥ 1, or `null` meaning "present, count unstated" — the common case. When a count is stated, `name` stays the singular vocabulary term (`"Seabob"`, never `"2x Seabob"`) so slug matching and name fallback keep working; the count lives in `quantity` alone. *(Added from implementer feedback, 2026-08: real inventories carry per-toy counts, and importers were reduced to scraping them out of description text — an explicit number on the wire is unambiguous.)*
 - Rationale (production-proven): aggregator feeds deliver equipment as broker-filled free text plus a handful of structured checkboxes; extracting structure from the text is an *import* problem, never a wire problem. A federation node's own listings are first-party data — structured at entry. Feed checkbox flags (elevator, helipad, flybridge, stabilisers, thrusters, wheelchair access, …) map to well-known slugs rather than dedicated top-level fields, so there is exactly one place to look.
-- The initial well-known slug list is non-normative and maintained alongside the other vocabulary curation material; slug registry governance is a v1.x decision (`api-design.md`).
+- The well-known slug list is published, non-normatively, at [`../registry/features.json`](../registry/features.json), with its curation rules in [`../registry/README.md`](../registry/README.md) *(amended 2026-08: the list now exists; this previously said it was "maintained alongside the other vocabulary curation material")*. Unlike the builder/category/destination registries it is never a validation gate: an unlisted feature is sent with `slug: null`, an unknown slug is not an error, and promotion to a fixed registry — slug registry governance — remains a v1.x decision (`api-design.md`).
 
 ## Media
 
@@ -348,8 +350,8 @@ Data entry for builders should be a fixed choice from the vendored registry plus
     { "section": "overview", "content": "<p>BLUE SKY, the 50’ Maritimo, is a well-maintained, extensively upgraded motor yacht…</p>" }
   ],
   "features": [
-    { "category": "equipment", "name": "Water maker", "slug": "water-maker" },
-    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning" }
+    { "category": "equipment", "name": "Water maker", "slug": "water-maker", "quantity": null },
+    { "category": "comfort", "name": "Air conditioning", "slug": "air-conditioning", "quantity": null }
   ],
   "media": {
     "profile": { "url": "https://authority.example/media/listings/018f6d2e-9f0a-7cc3-a1b2-3c4d5e6f7a8b/profile.jpg", "sha256": "ef6d847c6ea6004cea1b1f1f9626c6ce4088442d63dde6e08fc404a822cf4c13", "width": 4000, "height": 2667, "caption": "Profile", "thumbnail_url": "https://authority.example/media/listings/018f6d2e-9f0a-7cc3-a1b2-3c4d5e6f7a8b/profile-thumb.jpg" },
