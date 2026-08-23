@@ -7,9 +7,9 @@ usage terms, and no central platform in the middle.
 
 Each participating system ("node") is identified by its domain, publishes its
 keys at a well-known URL, and signs every federation request. Trust is pairwise
-and human-approved. There is deliberately nothing in the middle: no registry to
-subscribe to, no operator who can raise API prices, no platform the industry's
-data accumulates inside. Two brokerages exchanging listings over OpenYacht
+and human-approved. There is deliberately nothing in the middle: no gatekeeper
+to register with, no operator who can raise API prices, no platform the
+industry's data accumulates inside. Two brokerages exchanging listings over OpenYacht
 depend on each other and on nothing else — and get value from the first
 connection: live inventory, correct prices, licensed images, machine-readable
 usage terms.
@@ -82,8 +82,12 @@ time.
 - **In scope**: sale listings, charter listings (static data: yacht, rates,
   capacities), partner management, sync, media, usage terms.
 - **Out of scope for v1**: charter availability calendars and booking flows;
-  listing relay through intermediary nodes; any central directory (discovery
-  is by exchanging domains — brokers already know who they co-broker with).
+  listing relay through intermediary nodes; partner discovery (connecting two
+  nodes today means exchanging domains — brokers already know who they
+  co-broker with). A discovery layer that helps nodes find each other across
+  the network is planned for a later version; whatever shape it takes, it
+  will be optional and advisory — a node never needs to be listed anywhere
+  to federate.
 
 ## Contributing
 
