@@ -83,6 +83,7 @@ Sources: `federation-protocol.md` (FP), `yacht-identity.md` (ID), `api-design.md
 | LS-13 | A | Vendor the builder and category registries; never fetch them (or any third-party resource) as part of validating or serving a listing at request time. |
 | LS-14 | A | Apply field-group gating exactly per the gating map (`pricing`, `location_exact`, `media_original`, `documents`, `vessel_identifiers`, `history`) — withheld values are nulled/emptied server-side. |
 | LS-15 | A | Distribute charter crew data only while holding an attestation from the charter manager or captain that they are authorised to publish it; crew data inherits the listing's `usage` terms including expiry. |
+| LS-16 | A | When non-null, a gallery or layout `thumbnail_url` is a rendition of the same image as its `url` — never a different photograph; `null` means no small rendition is served. |
 
 ## SHOULD / RECOMMENDED (not required for conformance; deviations deserve a written reason)
 

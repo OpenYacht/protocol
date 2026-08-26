@@ -108,11 +108,11 @@
       "thumbnail_url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/profile-thumb.jpg"
     },
     "gallery": [
-      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/02.jpg", "sha256": "6369805998dd2b77eb6ed90fa9f160076b8045c670e7386395442bf322da116b", "category": "exterior", "width": 4000, "height": 2667, "caption": "Sundeck jacuzzi", "sort": 1 },
-      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/03.jpg", "sha256": "8a06fe110c77edcd4e9013663c4e6a5cd724e9f5bbd0919276f0bbe859d51d27", "category": "interior", "width": 4000, "height": 2667, "caption": "Main salon", "sort": 2 }
+      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/02.jpg", "sha256": "6369805998dd2b77eb6ed90fa9f160076b8045c670e7386395442bf322da116b", "category": "exterior", "width": 4000, "height": 2667, "caption": "Sundeck jacuzzi", "sort": 1, "thumbnail_url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/02-thumb.jpg" },
+      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/03.jpg", "sha256": "8a06fe110c77edcd4e9013663c4e6a5cd724e9f5bbd0919276f0bbe859d51d27", "category": "interior", "width": 4000, "height": 2667, "caption": "Main salon", "sort": 2, "thumbnail_url": null }
     ],
     "layouts": [
-      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/ga.jpg", "sha256": "c21d26699d4743ee7854b24a0621896f6b56165493d32b48014cc38b157e2b39", "width": 3000, "height": 2000, "caption": "General arrangement", "sort": 1 }
+      { "url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/ga.jpg", "sha256": "c21d26699d4743ee7854b24a0621896f6b56165493d32b48014cc38b157e2b39", "width": 3000, "height": 2000, "caption": "General arrangement", "sort": 1, "thumbnail_url": "https://authority.example/media/listings/019a1b2c-3d4e-7f50-8a6b-7c8d9e0f1a2b/ga-thumb.jpg" }
     ],
     "videos": [],
     "tours": [

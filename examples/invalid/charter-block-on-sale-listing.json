@@ -200,7 +200,8 @@
         "width": 4000,
         "height": 2667,
         "caption": "Aft deck",
-        "sort": 1
+        "sort": 1,
+        "thumbnail_url": null
       }
     ],
     "layouts": [],
