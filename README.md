@@ -93,6 +93,23 @@ time.
   network remains planned for a later version. Both are
   optional and advisory — a node never needs to be listed anywhere
   to federate.
+- **Excluded permanently, not just from v1: reputation, ratings, and shared
+  blocklists.** No mechanism in this protocol lets one node's judgement of
+  another propagate — no "bad actor" flags, no network-wide blocks, no scores.
+  The reasons are structural, not an omission. Any shared verdict needs an
+  adjudicator, and the adjudicator becomes exactly the central authority this
+  protocol exists to remove; a flag that cascades is a weapon the moment it
+  exists — indistinguishable from a competitor's smear campaign at the
+  protocol level. The same principle already governs vessel identity
+  conflicts, which are never auto-resolved (`spec/yacht-identity.md`). What
+  the protocol provides instead makes misbehaviour attributable, contained,
+  and terminable pairwise: no relay (content reaches only partners who
+  individually approved its authority, each of whom can stop displaying it or
+  end the partnership at any time), a single sanitised rich-text field
+  (consumers MUST sanitise before rendering), and signatures on every
+  exchange, so what a node sent is provable, not hearsay. Reputation travels
+  between people, on evidence each operator holds — the protocol deliberately
+  offers no machinery for a synchronised verdict.
 
 ## Contributing
 
