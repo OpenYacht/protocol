@@ -230,5 +230,5 @@ The protocol uses semantic versioning, negotiated via `protocol_versions` in the
 - Encrypt the private key at rest; include it in encrypted backups only.
 - Enforce the timestamp window and the TLS requirements without exceptions.
 - Rate-limit all federation endpoints per partner; block partners with sustained verification failure rates.
-- Treat all inbound listing content (descriptions, image URLs, names) as untrusted input: sanitize HTML, validate URLs against the sender's claimed domains, and never hotlink images into admin interfaces without a content-type check.
+- Treat all inbound listing content (descriptions, image URLs, names) as untrusted input: sanitise HTML, validate URLs against the sender's claimed domains, and never hotlink images into admin interfaces without a content-type check.
 

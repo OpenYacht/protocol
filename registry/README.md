@@ -19,7 +19,7 @@ The canonical `name` is **the name a buyer would search**. The rules:
 
 **Casing**: keep intentional mixed case (`SeaVee`, `AB Inflatables`, `HH Catamarans`) and short all-caps acronym brands (`CRN`, `MJM`, `HCB`) verbatim; only title-case strings that arrive entirely upper- or lowercase.
 
-**Do not merge on string similarity alone.** Suffix pairs are sometimes genuinely different companies (`Admiral` the Italian superyacht builder vs `Admiral Marine` the Port Townsend yard; `Silver` vs `Silver Yachts`). Every merge is a judgment call by someone who knows the yards.
+**Do not merge on string similarity alone.** Suffix pairs are sometimes genuinely different companies (`Admiral` the Italian superyacht builder vs `Admiral Marine` the Port Townsend yard; `Silver` vs `Silver Yachts`). Every merge is a judgement call by someone who knows the yards.
 
 ## Curation queues
 
