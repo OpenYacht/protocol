@@ -194,6 +194,8 @@ Step 5 is what makes rotation coordination-free; step 6 is what stops a reinstal
 2. **Approval**: a human at B reviews and approves. B records A as `verified` and MAY send a signed reciprocal request to A.
 3. **Sharing**: what A can see of B's inventory is governed entirely by B's sharing rules (see `yacht-identity.md` and `api-design.md`). Verification of the *business* (is this really Example Brokerage?) is a human judgement, optionally aided by out-of-band key pinning; the protocol authenticates the *server*, not the company.
 
+**Approval is per partner, not per listing.** The human decision in step 2 is the only approval the protocol requires before data flows; this specification has no per-listing acceptance step — no point at which a person accepts or rejects an individual listing before it may be stored or displayed. Once a partner is `verified`, its listings synchronise automatically — and `yacht-identity.md` *requires* updates and withdrawals to be applied within 24 hours, an obligation a manual review queue standing in front of changes cannot reliably meet. Whether a synchronised copy is *displayed*, and under what policy, is a separate and entirely local decision (see `api-design.md` *Implementation Notes*). Exceptions that always reach a person include an unresolved vessel-identity conflict (`yacht-identity.md`) and a partner whose node UUID or unpinned key has changed. *(Clarified after implementer feedback, 2026-08: integrators read "human-approved" as a per-listing gate and concluded the protocol would not scale.)*
+
 ### Partner record (reference)
 
 ```sql

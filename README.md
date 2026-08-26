@@ -7,12 +7,14 @@ usage terms, and no central platform in the middle.
 
 Each participating system ("node") is identified by its domain, publishes its
 keys at a well-known URL, and signs every federation request. Trust is pairwise
-and human-approved. There is deliberately nothing in the middle: no gatekeeper
-to register with, no operator who can raise API prices, no platform the
-industry's data accumulates inside. Two brokerages exchanging listings over OpenYacht
-depend on each other and on nothing else — and get value from the first
-connection: live inventory, correct prices, licensed images, machine-readable
-usage terms.
+and human-approved: a person approves the *partner*, once. Listings then flow
+automatically — there is no per-listing approval step in the protocol, and
+updates and withdrawals are required to propagate within 24 hours. There is
+deliberately nothing in the middle: no gatekeeper to register with, no operator
+who can raise API prices, no platform the industry's data accumulates inside.
+Two brokerages exchanging listings over OpenYacht depend on each other and on
+nothing else — and get value from the first connection: live inventory, correct
+prices, licensed images, machine-readable usage terms.
 
 ## Status: Draft v0.1
 
