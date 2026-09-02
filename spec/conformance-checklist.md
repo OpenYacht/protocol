@@ -21,7 +21,7 @@ Sources: `federation-protocol.md` (FP), `yacht-identity.md` (ID), `api-design.md
 | ID | A/C | Requirement |
 |---|---|---|
 | FP-6 | A+C | Sign every request under `/openyacht/v1/` except `health` and `capabilities`, sending all four `X-OpenYacht-*` headers (node, key, timestamp, signature). |
-| FP-7 | A+C | Build the signing string exactly as specified: method `\n` path+query `\n` lowercase host `\n` timestamp `\n` lowercase-hex SHA-256 of the raw body (empty-string hash when bodyless). |
+| FP-7 | A+C | Build the signing string exactly as specified: method, path+query, lowercase host, timestamp, and the lowercase-hex SHA-256 of the raw body (empty-string hash when bodyless), separated by single `\n` characters. |
 | FP-8 | A+C | Reject requests whose timestamp is outside ±300 seconds of server time. |
 | FP-9 | A+C | Reject all requests from `blocked` partners. |
 | FP-10 | A+C | On verification failure, refetch the sender's well-known document once (fresh, rate-limit-respecting) and retry; on second failure reject with `401` and log. |
