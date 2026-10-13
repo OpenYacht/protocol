@@ -62,7 +62,12 @@ The builder registry is the fixed vocabulary both sides of an exchange
 validate slugs against. Rules for additions and changes:
 
 - **Slugs are permanent.** Renames change `name`, never `slug`. Removals are
-  not made; a defunct builder stays (existing listings reference it).
+  not made; a defunct builder stays (existing listings reference it). The one
+  exception is the dated note in `registry/README.md`: entries that never
+  identified a real builder were removed in 2026.10.0, which is not a
+  precedent for defunct yards.
+- `country` is the country of the brand's principal office, never where the
+  hull was built (rule in `registry/README.md`).
 - One builder per PR is easiest to review; batches are fine when they share a
   rationale.
 - Follow the canonical-name policy in `registry/README.md` — the name a buyer
