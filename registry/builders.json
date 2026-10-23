@@ -1,6 +1,6 @@
 {
 	"registry": "openyacht-builders",
-	"version": "2026.10.0",
+	"version": "2026.10.1",
 	"canonical_url": "https://openyacht.org/registry/builders.json",
 	"notes": "Fixed manufacturer vocabulary for the OpenYacht protocol: the set list both authorities and consumers validate builder slugs against. Versioned like tzdata: consumers vendor a copy and update out-of-band; never fetched at request time. Additions via pull request to the spec repository. This list is intentionally alias-free — normalising dirty source data is an import concern; alias mappings are a non-normative import aid maintained outside this repository.",
 	"builders": [
@@ -202,6 +202,11 @@
 		{
 			"slug": "blackfin",
 			"name": "Blackfin",
+			"country": "United States"
+		},
+		{
+			"slug": "blackwater",
+			"name": "BlackWater",
 			"country": "United States"
 		},
 		{
